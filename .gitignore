@@ -1,0 +1,4 @@
+docker/conf/secrets/*.txt
+docker/conf/env/.env
+.env
+.vscode/
