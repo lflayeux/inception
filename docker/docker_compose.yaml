@@ -1,0 +1,64 @@
+services:
+  mariadb:
+    build: ./mariadb/
+    networks:
+      - inception
+    env_file:
+      - ./conf/env/.env
+    secrets:
+      - db_root
+      - db_user
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/mariadb_healthcheck.sh"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+      start_period: 5s
+
+  wordpress:
+    build: ./wordpress/
+    volumes:
+      - wp:/var/www/html
+    networks:
+      - inception
+    env_file:
+      - ./conf/env/.env
+    secrets:
+      - db_user
+      - wp_admin
+      - wp_user
+    depends_on:
+      mariadb:
+        condition: service_healthy
+  nginx:
+    build: ./nginx/
+    volumes:
+      - wp:/var/www/html
+    ports:
+      - 443:443
+    networks:
+      - inception
+    depends_on:
+      - wordpress
+
+
+volumes:
+  db:
+    name: db_volume
+  wp:
+    name: wp_volume
+
+secrets:
+  db_root:
+    file: ./conf/secrets/db_root.txt
+  db_user:
+    file: ./conf/secrets/db_user.txt
+  wp_admin:
+    file: ./conf/secrets/wp_admin.txt
+  wp_user:
+    file: ./conf/secrets/wp_user.txt
+
+networks:
+  inception:
+    name: inception-network
+    driver: bridge
