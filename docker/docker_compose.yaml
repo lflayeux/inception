@@ -1,22 +1,35 @@
 services:
+# =========================
+# ======= MANDATORY =======
+# =========================
+
   mariadb:
+    container_name: mariadb
     build: ./mariadb/
+    image: mariadb
     networks:
       - inception
     env_file:
       - ./conf/env/.env
+    expose:
+      - ${DB_PORT}
     secrets:
       - db_root
       - db_user
+    volumes:
+      - db:/var/lib/mysql
     healthcheck:
       test: ["CMD", "/usr/local/bin/mariadb_healthcheck.sh"]
       interval: 2s
       timeout: 2s
       retries: 10
       start_period: 5s
+    restart: always
 
   wordpress:
+    container_name: wordpress
     build: ./wordpress/
+    image: wordpress
     volumes:
       - wp:/var/www/html
     networks:
@@ -30,7 +43,11 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
+    restart: always
+
   nginx:
+    container_name: nginx
+    image: nginx
     build: ./nginx/
     volumes:
       - wp:/var/www/html
@@ -40,13 +57,25 @@ services:
       - inception
     depends_on:
       - wordpress
+    restart: always
 
+# =========================
+# ========= BONUS =========
+# =========================
 
 volumes:
   db:
     name: db_volume
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/lflayeux/data/db
   wp:
     name: wp_volume
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/lflayeux/data/wp
 
 secrets:
   db_root:

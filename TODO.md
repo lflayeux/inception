@@ -13,7 +13,7 @@
 - [x] docker network to connect each container
 > :warning: Your containers have to restart in case of a crash
 
-- [ ] add docker_ignore git_ignore
+- [x] add docker_ignore git_ignore
 - [ ] dossier /home/lflayeux/data pour volumes 
  
 ### DOCKERFILE NGINX
