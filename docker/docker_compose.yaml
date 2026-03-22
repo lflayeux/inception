@@ -40,9 +40,17 @@ services:
       - db_user
       - wp_admin
       - wp_user
+    healthcheck:
+      test: ["CMD", "cgi-fcgi", "-bind", "-connect", "127.0.0.1:9000"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
     depends_on:
       mariadb:
         condition: service_healthy
+      redis:
+        condition: service_started
     restart: always
 
   nginx:
@@ -56,12 +64,47 @@ services:
     networks:
       - inception
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
+      adminer:
+        condition: service_started
+      static-site:
+        condition: service_started
     restart: always
 
 # =========================
 # ========= BONUS =========
 # =========================
+  redis:
+    container_name: redis
+    image: redis
+    build: ./bonus/redis/
+    expose:
+      - 6379
+    networks:
+      - inception
+    restart: always
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    build: ./bonus/adminer
+    expose:
+      - 8080
+    networks:
+      - inception
+    restart: always
+
+  static-site:
+    container_name: static-site
+    image: static-site
+    build: ./bonus/static-site
+    expose:
+      - 8081
+    networks:
+      - inception
+    restart: always 
+
 
 volumes:
   db:

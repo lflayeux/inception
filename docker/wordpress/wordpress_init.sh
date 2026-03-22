@@ -36,7 +36,15 @@ init_wp() {
         --user_pass=$WP_USER_PASSWORD \
         lolo@student.42.fr \
         --allow-root
+    wp config set WP_DEBUG true --raw --allow-root
+    wp config set WP_DEBUG_DISPLAY true --raw --allow-root
+}
 
+init_redis() {
+    wp plugin install redis-cache --activate --allow-root
+    wp config set WP_REDIS_HOST redis --allow-root
+    wp config set WP_REDIS_PORT 6379 --raw --allow-root
+    wp redis enable --allow-root
 }
 
 main() {
@@ -47,6 +55,7 @@ main() {
 		echo "<=========================================> WORDPRESS INSTALLATION <=========================================>"
 		echo "<============================================================================================================>"
         init_wp
+        init_redis
     else
         echo "<==================================================================================================================>"
 		echo "<=========================================> WORDPRESS ALLREADY INSTALLED <=========================================>"
