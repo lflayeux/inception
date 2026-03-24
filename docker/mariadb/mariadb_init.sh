@@ -21,6 +21,7 @@ init_db() {
 	mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 	mariadbd --user=mysql --datadir=/var/lib/mysql --skip-networking &
 	pid=$!
+	# TODO: A FAIRE
 	until mariadb-admin ping --silent; do
         sleep 1
     done

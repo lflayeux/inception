@@ -7,6 +7,9 @@ COMPOSE_PATH = ./docker/docker_compose.yaml
 PROJECT_NAME = inception
 
 all:
+	mkdir -p /home/lflayeux/data/wp
+	mkdir -p /home/lflayeux/data/db
+	mkdir -p /home/lflayeux/data/static
 	docker compose -f $(COMPOSE_PATH) --env-file $(ENV_PATH) -p $(PROJECT_NAME) up -d --build
 
 logs:
@@ -32,8 +35,8 @@ bash-nginx:
 	@docker exec -it nginx sh
 
 restart:
-	docker compose -p $(PROJECT_NAME) restart
-
+	cp -rf ./docker/bonus/static-site/srcs/* /home/lflayeux/data/static/
+	docker compose -f $(COMPOSE_PATH) --env-file $(ENV_PATH) -p $(PROJECT_NAME) up -d
 
 start :
 	docker compose -p $(PROJECT_NAME) start
@@ -44,6 +47,7 @@ stop:
 fclean: stop
 	docker compose -p $(PROJECT_NAME) down --rmi all -v
 	docker run --rm -v /home/lflayeux/data:/data alpine sh -c "rm -rf /data/db/* /data/wp/*"
+	docker system prune -f
 
 re: fclean all
 

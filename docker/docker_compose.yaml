@@ -103,8 +103,24 @@ services:
       - 8081
     networks:
       - inception
-    restart: always 
-
+    volumes:
+      - static:/var/www/static/
+    restart: always
+  ftp:
+    container_name: ftp
+    image: ftp
+    build: ./bonus/ftp
+    networks:
+      - inception
+    ports:
+      - "21:21"
+      - "60000-60005:60000-60005"
+    volumes:
+      - wp:/var/www/html
+    depends_on:
+      wordpress:
+        condition: service_started
+    restart: always
 
 volumes:
   db:
@@ -119,7 +135,12 @@ volumes:
       type: none
       o: bind
       device: /home/lflayeux/data/wp
-
+  static:
+    name: static_volume
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/lflayeux/data/static
 secrets:
   db_root:
     file: ./conf/secrets/db_root.txt

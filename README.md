@@ -18,9 +18,17 @@ Todo so we build 3 containers interconnect with 2 database
 
 Here you can find important differences to understand to do the project
 ### 1. Virtual Machines vs Docker
+
+
 ### 2. Secrets vs Environment Variables
+
+
 ### 3. Docker Network vs Host Network
+
+
 ### 4. Docker Volumes vs Bind Mounts
+
+
 ## :hammer_and_wrench: Instructions
 
 To use our program make sure you got docker preinstalled by using:
