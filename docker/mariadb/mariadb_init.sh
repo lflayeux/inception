@@ -21,8 +21,17 @@ init_db() {
 	mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 	mariadbd --user=mysql --datadir=/var/lib/mysql --skip-networking &
 	pid=$!
-	# TODO: A FAIRE
+	# COUNTDOWN PING
+	COUNT=0
+	RETRIES=30
 	until mariadb-admin ping --silent; do
+    	COUNT=$((COUNT + 1))
+    
+ 		if [ $COUNT -ge $RETRIES ]; then
+    		echo "Error: MariaDB did not respond after $RETRIES seconds. Exiting."
+        	exit 1
+   		fi
+    	echo "Waiting for MariaDB... ($COUNT/$RETRIES)"
         sleep 1
     done
 	mariadb -u root <<EOF 

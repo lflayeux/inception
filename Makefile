@@ -10,6 +10,7 @@ all:
 	mkdir -p /home/lflayeux/data/wp
 	mkdir -p /home/lflayeux/data/db
 	mkdir -p /home/lflayeux/data/static
+	mkdir -p /home/lflayeux/data/logs
 	docker compose -f $(COMPOSE_PATH) --env-file $(ENV_PATH) -p $(PROJECT_NAME) up -d --build
 
 logs:
@@ -46,7 +47,7 @@ stop:
 
 fclean: stop
 	docker compose -p $(PROJECT_NAME) down --rmi all -v
-	docker run --rm -v /home/lflayeux/data:/data alpine sh -c "rm -rf /data/db/* /data/wp/*"
+	docker run --rm -v /home/lflayeux/data:/data alpine sh -c "rm -rf /data/db/* /data/wp/* /data/static/*"
 	docker system prune -f
 
 re: fclean all

@@ -117,9 +117,19 @@ services:
       - "60000-60005:60000-60005"
     volumes:
       - wp:/var/www/html
+      - vsftpd_logs:/var/log/vsftpd
     depends_on:
       wordpress:
         condition: service_started
+    restart: always
+  fail2ban:
+    container_name: fail2ban
+    image: fail2ban
+    build: ./bonus/fail2ban
+    networks:
+      - inception
+    volumes:
+      - vsftpd_logs:/var/log/vsftpd:ro
     restart: always
 
 volumes:
@@ -141,6 +151,13 @@ volumes:
       type: none
       o: bind
       device: /home/lflayeux/data/static
+  vsftpd_logs:
+    name: vsftpd_logs
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/lflayeux/data/logs
+
 secrets:
   db_root:
     file: ./conf/secrets/db_root.txt

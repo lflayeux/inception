@@ -1,0 +1,23 @@
+[Definition]
+logtarget = STDOUT
+
+[DEFAULT]
+backend = auto
+enabled = false
+
+[vsftpd-auth]
+enabled  = true
+filter   = vsftpd-auth
+port     = 21
+logpath  = /var/log/vsftpd/vsftpd.log
+maxretry = 5
+findtime = 120
+bantime  = 300
+
+[sshd]
+enabled = false
+
+[sshd-ddos]
+enabled = false
+
+

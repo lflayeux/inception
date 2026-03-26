@@ -4,6 +4,7 @@ RUN apk update && apk add --no-cache vsftpd
 
 COPY ./vsftpd.conf /etc/vsftpd/vsftpd.conf
 
+# TODO CHANGER PASSWORD 
 RUN adduser -D -u 88 lflayeux \
 	&& echo "lflayeux:test" | chpasswd \ 
 	&& echo "lflayeux" >> /etc/vsftpd/user_list
