@@ -1,0 +1,50 @@
+body {
+	background-color: black;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.box {
+	.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+}
+
+.box img {
+	border-radius: 50%;
+	width: 300px;
+	height: auto;
+	border: 3px solid #1c3454;
+	display: block;
+    margin: 0 auto;
+}
+
+.cv {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.name {
+	font-weight: bold;
+}
+
+.role {
+	font-style: italic;
+}
+
+p {
+	color: aliceblue;
+	text-align: center;
+}
+a {
+	color: aliceblue;
+	text-align: center;
+}

@@ -17,17 +17,25 @@ It aim to learn us how to use docker and contianers efficiently and how volume a
 Todo so we build 3 containers interconnect with 2 database
 
 Here you can find important differences to understand to do the project
+
 ### 1. Virtual Machines vs Docker
 
+A virtual machine simulate an entire machine so it recreate a kernel new volume etc based on the ressourcres avalaible on the host.
+Docker chare the kernel of the host machine 
 
 ### 2. Secrets vs Environment Variables
 
+A **Secret** is a file containing sensitive data (like passwords or API keys). Instead of storing the password directly in an **Environment Variable** which is insecure because it can be seen via `docker inspect` we store the path to the secret file.
+
+When the container starts, Docker mounts the secret into a temporary memory-based filesystem (`/run/secrets/`). This ensures that sensitive data is never exposed in the container's configuration or stored permanently on the disk.
 
 ### 3. Docker Network vs Host Network
 
+Docker network is an entire network inside docker with his own dns to transltate ip inside the docker network to name of the service
 
 ### 4. Docker Volumes vs Bind Mounts
 
+Docker volumes stocks the data in a 
 
 ## :hammer_and_wrench: Instructions
 
