@@ -1,4 +1,5 @@
-docker/conf/secrets/*.txt
-docker/conf/env/.env
-.env
+srcs/conf/secrets/*.txt
+srcs/conf/env/.env
+
+
 .vscode/
