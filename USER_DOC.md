@@ -1,96 +1,38 @@
-USER_DOC.md — User documentation This file must explain, in clear and simple
-terms, how an end user or administrator can:
-◦ Understand what services are provided by the stack. [list of all the services]
-◦ Start and stop the project. []
-◦ Access the website and the administration panel. [lien vers le site ]
-◦ Locate and manage credentials. [location of the secrets + list of all files]
-◦ Check that the services are running correctly. [command to check all the services]
+# 📖 User Documentation - Inception
 
-# 🐳 Inception - User Documentation
-
-Welcome to the Inception infrastructure. This document provides the necessary information to manage, monitor, and use the services provided by this containerized stack.
+*This document explains how to use and manage the Inception services stack.*
 
 ## 1. Services Overview
+This project runs the following services defined in `srcs/docker_compose.yaml`:
+- **Nginx:** Serves the main WordPress site over HTTPS and routes requests to the WordPress and bonus static site containers.
+- **MariaDB:** Provides the database backend for WordPress and stores all site data.
+- **WordPress:** Hosts the website and its administration interface.
+- **Redis:** A caching service used by the stack to improve performance.
+- **FTP:** Provides FTP access to the WordPress files and is used for file transfer operations.
+- **Adminer:** A web-based database management tool for MariaDB.
+- **Static Site:** A bonus static website served by the same domain under `/static`.
+- **Fail2ban:** Protects the FTP service by monitoring login attempts and banning suspicious clients.
 
-The stack provides a full-featured web hosting environment with the following micro-services:
+## 2. Managing the Project
+From the project root, use these commands to manage the stack:
+- **Start the project:** `make`
+- **Stop the project:** `make stop` (stops containers but keeps persistent data)
+- **Clean up:** `make fclean` (stops containers, removes containers and volumes, and prunes Docker resources)
 
-- **NGINX**: The entry point (Reverse Proxy) providing secure HTTPS access (TLS 1.3).
-- **WordPress**: The Content Management System (CMS) powered by PHP-FPM.
-- **MariaDB**: The relational database for WordPress.
-- **Redis**: In-memory cache to accelerate WordPress performance.
-- **FTP** (vsftpd): Secure file transfer to manage your website files.
-- **Adminer**: A lightweight web interface to manage your database.
-- **Static Site**: A simple information page served separately.
-- **Fail2ban**: Security layer that monitors logs and bans malicious IPs.
+## 3. Accessing the Platform
+The services are accessible via the following URLs (ensure `lflayeux.42.fr` is in your hosts file):
+- **Main Website (WordPress):** https://lflayeux.42.fr
+- **Database Management (Adminer):** https://lflayeux.42.fr/adminer
+- **Bonus Static Site:** https://lflayeux.42.fr/static
 
+## 4. Credentials Management
+Credentials and secrets are managed in the project configuration files:
+- The environment variables are loaded from `srcs/conf/env/.env`.
+- Docker secrets are stored under `srcs/conf/secrets/` for sensitive values like `db_root`, `db_user`, `wp_admin`, and `wp_user`.
 
-## 2. Getting Started
+These files contain sensitive information and should not be committed to Git. Keep them private and outside version control for security.
 
-🚀 Starting the Project
-
-From the root of the repository (~/inception), run:
-``` bash
-make
-```
-Alternatively, use: `docker compose up -d --build`
-
-🛑 Stopping the Project
-
-To stop the services without deleting data:
-``` bash
-make stop
-```
-To stop and remove all containers and networks:
-``` bash
-make down
-```
-
-
-## 3. Accessing the Services
-
-To access the services, ensure you have added lflayeux.42.fr to your `/etc/hosts` file.
-
-| Service | Access URL | Credentials |
-|---------|------------|-------------|
-| Main Website | https://lflayeux.42.fr | Defined in .env
-| WP Admin | https://lflayeux.42.fr/wp-admin | Admin User / Password
-| Adminer | https://lflayeux.42.fr/adminer | DB User / Password
-| Static Site | https://lflayeux.42.fr/static | N/A
-
-## 4. Managing Credentials
-
-Security is handled via Docker Secrets.
-
-- **Location**: All sensitive data is stored in `./conf/secrets/`.
-
-- **Files**:
-	- `db_password.txt`: Password for the WordPress database user.
-	- `db_root_password.txt`: Password for the MariaDB root user.
-	- `wp_admin_password.txt`: Password for the WordPress administrator.
-
-**Environment Variables**: General settings (DB names, usernames, ports)are located in `./conf/env/.env`.
-
-## 5. Health Monitoring
-
-To ensure the infrastructure is healthy, use the following commands:
-Check Container Status
-
-``` bash
-docker ps
-```
-
-All containers should show Up or Up (healthy).
-View Service Logs
-
-If a service is not responding, check its logs:
-
-``` bash
-docker logs <container_name>
-```
-
-Check Fail2ban Status
-
-To see if any attackers have been banned:
-Bash
-
-docker exec -it fail2ban fail2ban-client status vsftpd-auth
+## 5. Health Status
+To verify that all services are running correctly:
+- Run `docker ps` to check the status.
+- All mandatory services (Nginx, WordPress, MariaDB) should show as `(healthy)`.

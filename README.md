@@ -61,7 +61,43 @@ make
 
 go to `https://lflayeux.42.fr` you can now see your website connect to it, let commentary etc...
 
+## Instructions
 
+### Prerequisites
+To run this project, you need a **Virtual Machine** (Debian or Ubuntu is recommended) with the following tools installed:
+* **Docker** & **Docker Compose**
+* **GNU Make**
+* **OpenSSL** (for SSL/TLS certificate generation)
+
+### Configuration
+1.  **Local Domain Setup**: 
+    Modify your `/etc/hosts` file on your host machine to map the project domain to your local loopback address:
+    ```bash
+    echo "127.0.0.1 lflayeux.42.fr" | sudo tee -a /etc/hosts
+    ```
+2.  **Environment Variables**:
+    Create a `.env` file in the `srcs/conf/env/` directory. This file must contain all necessary credentials (DB names, users, passwords).
+    > [!IMPORTANT]
+    > Never commit the `.env` file or any files within the `secrets/` directory to your Git repository.
+
+### Installation & Execution
+Navigate to the root of the project and use the provided **Makefile**:
+
+| Command | Action |
+| :--- | :--- |
+| `make` | Builds the Docker images and starts all containers in the background. |
+| `make stop` | Stops the running containers without removing them. |
+| `make clean` | Stops and removes containers and the internal network. |
+| `make fclean` | Full cleanup: removes containers, networks, **and all persistent volumes/data**. |
+| `make re` | Performs a full reset and rebuilds the entire infrastructure. |
+
+### Accessing the Services
+Once the infrastructure is up and the healthchecks are green, you can access the services via your web browser:
+
+* **WordPress**: [https://lflayeux.42.fr](https://lflayeux.42.fr)
+* **Adminer**: [https://lflayeux.42.fr/adminer](https://lflayeux.42.fr/adminer)
+* **Static Site**: [https://lflayeux.42.fr/static](https://lflayeux.42.fr/static)
+* **FTP**: Connect via `ftp lflayeux.42.fr` on port **21** using the credentials defined in your `.env`.
 ## :book: DOCUMENTATION
 
 |Resource|Type|Description|

@@ -1,5 +1,0 @@
-- [ ] finir README 
-- [ ] finir USER_DOC
-- [ ] finir DEV_DOC
-- [ ] changer le srcs/
-- [ ] 
