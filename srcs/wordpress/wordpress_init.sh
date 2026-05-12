@@ -24,11 +24,11 @@ init_wp() {
         --allow-root
 
     wp core install \
-        --url=lflayeux.42.fr \
+        --url="lflayeux.42.fr" \
         --title="$WEBSITE_NAME" \
-        --admin_user=$WP_ADMIN_NAME \
-        --admin_password=$WP_ADMIN_PASSWORD \
-        --admin_email=lflayeux@student.42.fr \
+        --admin_user="$WP_ADMIN_NAME" \
+        --admin_password="$WP_ADMIN_PASSWORD" \
+        --admin_email="lflayeux@student.42.fr" \
         --skip-email \
         --allow-root
 

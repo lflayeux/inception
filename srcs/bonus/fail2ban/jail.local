@@ -10,7 +10,7 @@ enabled  = true
 filter   = vsftpd-auth
 port     = 21
 logpath  = /var/log/vsftpd/vsftpd.log
-maxretry = 5
+maxretry = 3
 findtime = 120
 bantime  = 300
 

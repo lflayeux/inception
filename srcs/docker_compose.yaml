@@ -17,7 +17,7 @@ services:
       - db_root
       - db_user
     volumes:
-      - db:/var/lib/mysql
+      - db:/var/lib/mysql:Z
     healthcheck:
       test: ["CMD", "/usr/local/bin/mariadb_healthcheck.sh"]
       interval: 2s
@@ -31,7 +31,7 @@ services:
     build: ./wordpress/
     image: wordpress
     volumes:
-      - wp:/var/www/html
+      - wp:/var/www/html:Z
     networks:
       - inception
     env_file:
@@ -43,7 +43,7 @@ services:
       - wp_admin
       - wp_user
     healthcheck:
-      test: ["CMD", "cgi-fcgi", "-bind", "-connect", "127.0.0.1:${WP_PORT}"]
+      test: ["CMD", "/usr/local/bin/wordpress_healthcheck.sh"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -60,7 +60,7 @@ services:
     image: nginx
     build: ./nginx/
     volumes:
-      - wp:/var/www/html
+      - wp:/var/www/html:Z
     ports:
       - 443:443
     networks:
@@ -109,7 +109,7 @@ services:
     networks:
       - inception
     volumes:
-      - static:/var/www/static/
+      - static:/var/www/static/:Z
     init: true
     restart: on-failure
   ftp:
@@ -118,12 +118,16 @@ services:
     build: ./bonus/ftp
     networks:
       - inception
+    env_file:
+      - ./conf/env/.env
+    secrets:
+      - ftp_user
     ports:
       - "21:21"
       - "60000-60005:60000-60005"
     volumes:
-      - wp:/var/www/html
-      - vsftpd_logs:/var/log/vsftpd
+      - wp:/var/www/html:Z
+      - vsftpd_logs:/var/log/vsftpd:Z
     depends_on:
       wordpress:
         condition: service_started
@@ -136,7 +140,7 @@ services:
     networks:
       - inception
     volumes:
-      - vsftpd_logs:/var/log/vsftpd:ro
+      - vsftpd_logs:/var/log/vsftpd:ro,Z
     depends_on:
       ftp:
         condition: service_started
@@ -173,6 +177,8 @@ secrets:
     file: ./conf/secrets/db_root.txt
   db_user:
     file: ./conf/secrets/db_user.txt
+  ftp_user:
+    file: ./conf/secrets/ftp_user.txt
   wp_admin:
     file: ./conf/secrets/wp_admin.txt
   wp_user:
