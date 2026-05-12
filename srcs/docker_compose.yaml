@@ -10,7 +10,7 @@ services:
     networks:
       - inception
     env_file:
-      - ./conf/env/.env
+      - ./.env
     expose:
       - ${DB_PORT}
     secrets:
@@ -35,7 +35,7 @@ services:
     networks:
       - inception
     env_file:
-      - ./conf/env/.env
+      - ./.env
     expose:
       - ${WP_PORT}
     secrets:
@@ -66,7 +66,7 @@ services:
     networks:
       - inception
     env_file:
-      - ./conf/env/.env
+      - ./.env
     depends_on:
       wordpress:
         condition: service_healthy
@@ -119,7 +119,7 @@ services:
     networks:
       - inception
     env_file:
-      - ./conf/env/.env
+      - ./.env
     secrets:
       - ftp_user
     ports:
@@ -174,15 +174,15 @@ volumes:
 
 secrets:
   db_root:
-    file: ./conf/secrets/db_root.txt
+    file: ../secrets/db_root.txt
   db_user:
-    file: ./conf/secrets/db_user.txt
+    file: ../secrets/db_user.txt
   ftp_user:
-    file: ./conf/secrets/ftp_user.txt
+    file: ../secrets/ftp_user.txt
   wp_admin:
-    file: ./conf/secrets/wp_admin.txt
+    file: ../secrets/wp_admin.txt
   wp_user:
-    file: ./conf/secrets/wp_user.txt
+    file: ../secrets/wp_user.txt
 
 networks:
   inception:

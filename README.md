@@ -76,7 +76,7 @@ To run this project, you need a **Virtual Machine** (Debian or Ubuntu is recomme
     echo "127.0.0.1 lflayeux.42.fr" | sudo tee -a /etc/hosts
     ```
 2.  **Environment Variables**:
-    Create a `.env` file in the `srcs/conf/env/` directory. This file must contain all necessary credentials (DB names, users, passwords).
+    Create a `.env` file in the `srcs/` directory. This file must contain all necessary credentials (DB names, users, passwords).
     > [!IMPORTANT]
     > Never commit the `.env` file or any files within the `secrets/` directory to your Git repository.
 

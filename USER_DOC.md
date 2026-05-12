@@ -27,7 +27,7 @@ The services are accessible via the following URLs (ensure `lflayeux.42.fr` is i
 
 ## 4. Credentials Management
 Credentials and secrets are managed in the project configuration files:
-- The environment variables are loaded from `srcs/conf/env/.env`.
+- The environment variables are loaded from `srcs/.env`.
 - Docker secrets are stored under `srcs/conf/secrets/` for sensitive values like `db_root`, `db_user`, `wp_admin`, and `wp_user`.
 
 These files contain sensitive information and should not be committed to Git. Keep them private and outside version control for security.

@@ -1,5 +1,5 @@
 srcs/conf/secrets/*.txt
-srcs/conf/env/.env
+srcs/.env
 
 
 .vscode/

@@ -10,7 +10,7 @@
 ### Configuration Files
 The main project configuration lives under `srcs/`.
 - `srcs/docker_compose.yaml` defines the full stack and service dependencies.
-- `srcs/conf/env/.env` contains the environment variables used by MariaDB, WordPress, and Nginx.
+- `srcs/.env` contains the environment variables used by MariaDB, WordPress, and Nginx.
 - `srcs/conf/secrets/` holds Docker secrets for sensitive values such as `db_root`, `db_user`, `wp_admin`, and `wp_user`.
 
 If any secret files are missing, create them manually with the expected secret values. These secret files are not part of the repository and must be kept private.
@@ -19,7 +19,7 @@ If any secret files are missing, create them manually with the expected secret v
 The project uses a **multi-container Docker architecture**.
 - **Building and launching:** run `make` from the repository root.
 - `make` creates required host directories under `/home/lflayeux/data/` and then starts the stack with:
-  `docker compose -f srcs/docker_compose.yaml --env-file srcs/conf/env/.env -p inception up -d --build`
+  `docker compose -f srcs/docker_compose.yaml --env-file srcs/.env -p inception up -d --build`
 - The build uses Dockerfiles in the project:
   - `srcs/mariadb/`
   - `srcs/wordpress/`
@@ -36,7 +36,7 @@ The project uses a **multi-container Docker architecture**.
 
 ## 3. Essential Dev Commands
 Use these commands during development and troubleshooting:
-- `docker compose -f srcs/docker_compose.yaml --env-file srcs/conf/env/.env -p inception ps` — list stack containers.
+- `docker compose -f srcs/docker_compose.yaml --env-file srcs/.env -p inception ps` — list stack containers.
 - `docker logs <container>` — view logs for a container, e.g. `docker logs wordpress`.
 - `docker exec -it <container> sh` — open a shell inside a running container.
 - `docker volume ls` — list Docker volumes.

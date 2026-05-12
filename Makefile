@@ -4,7 +4,7 @@
 # END   = \033[0m
 
 
-# ENV_PATH = ./srcs/conf/env/.env
+# ENV_PATH = ./srcs/.env
 # COMPOSE_PATH = ./srcs/docker_compose.yaml
 # PROJECT_NAME = inception
 
@@ -51,7 +51,7 @@ RED   = \033[0;31m
 BLUE  = \033[0;34m
 END   = \033[0m
 
-ENV_PATH = ./srcs/conf/env/.env
+ENV_PATH = ./srcs/.env
 COMPOSE_PATH = ./srcs/docker_compose.yaml
 PROJECT_NAME = inception
 
